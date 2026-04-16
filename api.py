@@ -143,7 +143,7 @@ function App() {
 export default App;"""
     })
 
-
+@app.route('/api/route', methods=['GET'])
 def get_for_route():
     return jsonify({
         "code": """import React from "react";
