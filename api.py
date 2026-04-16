@@ -10,7 +10,7 @@ def home():
 
 # Your actual endpoint
 @app.route('/api/fetch_api', methods=['GET'])
-def get_string():
+def get_fetch_api_code():
     return jsonify({
         "code": """import React, { useState, useEffect } from "react";
 
@@ -58,7 +58,7 @@ export default App;"""
     })
 
 @app.route('/api/form', methods=['GET'])
-def get_string():
+def get_form_string():
     return jsonify({
         "code": """import React, { useState } from "react";
 
@@ -144,4 +144,34 @@ export default App;"""
     })
 
 
+def get_for_route():
+    return jsonify({
+        "code": """import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+function Home() {
+  return <h1>Home Page</h1>;
+}
+
+function About() {
+  return <h1>About Page</h1>;
+}
+
+function Contact() {
+  return <h1>Contact Page</h1>;
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;"""
+    })
