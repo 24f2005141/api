@@ -1,10 +1,18 @@
-from flask import Flask
+from flask import Flask, jsonify
+import os
 
 app = Flask(__name__)
 
-@app.route('/api/fetch_api')
+# Root route (so you stop getting 404 and questioning your life)
+@app.route('/')
+def home():
+    return "API is live"
+
+# Your actual endpoint
+@app.route('/api/fetch_api', methods=['GET'])
 def get_string():
-    return '''import React, { useState, useEffect } from "react";
+    return jsonify({
+        "code": """import React, { useState, useEffect } from "react";
 
 function App() {
 
@@ -13,13 +21,13 @@ function App() {
 
   useEffect(() => {
 
-    if (query === "") return; // avoid empty search
+    if (query === "") return;
 
     fetch(`https://api.github.com/search/users?q=${query}`)
       .then(res => res.json())
       .then(data => setUsers(data.items || []));
 
-  }, [query]); // runs whenever query changes
+  }, [query]);
 
   return (
     <div style={{ textAlign: "center", marginTop: "40px" }}>
@@ -46,7 +54,10 @@ function App() {
   );
 }
 
-export default App;'''
+export default App;"""
+    })
 
+# Important part for Render
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
