@@ -1,8 +1,8 @@
 from flask import Flask, jsonify
 import os
-
+from flask_cors import CORS
 app = Flask(__name__)
-
+CORS(app)
 # Root route (so you stop getting 404 and questioning your life)
 @app.route('/')
 def home():
@@ -56,4 +56,92 @@ function App() {
 
 export default App;"""
     })
+
+@app.route('/api/form', methods=['GET'])
+def get_string():
+    return jsonify({
+        "code": """import React, { useState } from "react";
+
+function App() {
+
+  const [form, setForm] = useState({
+    email: "",
+    password: ""
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const validate = () => {
+    let newErrors = {};
+
+    // Email validation
+    if (!form.email.includes("@")) {
+      newErrors.email = "Invalid email";
+    }
+
+    // Password validation
+    if (form.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const validationErrors = validate();
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      alert("Login Successful");
+    }
+  };
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h1>Login Form</h1>
+
+      <form onSubmit={handleSubmit}>
+
+        <div>
+          <input
+            type="text"
+            name="email"
+            placeholder="Enter Email"
+            value={form.email}
+            onChange={handleChange}
+          />
+          <p style={{ color: "red" }}>{errors.email}</p>
+        </div>
+
+        <div>
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter Password"
+            value={form.password}
+            onChange={handleChange}
+          />
+          <p style={{ color: "red" }}>{errors.password}</p>
+        </div>
+
+        <button type="submit">Login</button>
+
+      </form>
+    </div>
+  );
+}
+
+export default App;"""
+    })
+
+
 
